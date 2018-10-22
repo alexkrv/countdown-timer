@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
-
+var path = require('path')
 
 // GET route for reading data
 router.get('/', function (req, res, next) {
@@ -60,8 +60,10 @@ router.post('/', function (req, res, next) {
 
 // GET route after registering
 router.get('/profile', function (req, res, next) {
+    // console.log('PATH', path)
   User.findById(req.session.userId)
     .exec(function (error, user) {
+        console.log('PATH 2')
       if (error) {
         return next(error);
       } else {
@@ -70,7 +72,9 @@ router.get('/profile', function (req, res, next) {
           err.status = 400;
           return next(err);
         } else {
-          return res.send('<h1>Name: </h1>' + user.username + '<h2>Mail: </h2>' + user.email + '<br><a type="button" href="/logout">Logout</a>')
+            console.log('PATH 3',__dirname)
+          return res.sendFile(path.join(__dirname + '/../templateLogReg/account.html'));
+          // return res.send('<h1>Name: </h1>' + user.username + '<h2>Mail: </h2>' + user.email + '<br><a type="button" href="/logout">Logout</a>')
         }
       }
     });
@@ -89,5 +93,13 @@ router.get('/logout', function (req, res, next) {
     });
   }
 });
+
+router.post('/age/set/', function (req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    console.log("we are here", req.body);
+    //setTimeout(function(){ res.send(products) }, '2000')
+});
+
 
 module.exports = router;

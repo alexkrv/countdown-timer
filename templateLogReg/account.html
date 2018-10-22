@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account</title>
+    <!--<script src="../src/functions.js"></script>-->
+</head>
+<body>
+    <div>This is your account</div>
+    <div>Enter your number:</div>
+    <input id="value" type="number"/>
+    <button id="send">Установить значение</button>
+    <script>
+        var button = document.getElementById('send');
+        button.addEventListener('click', setValue, false )
+
+        function setValue( event ) {
+            event.preventDefault()
+            var input = document.getElementById('value');
+            console.log( input.value)
+            xhr( 'POST', '/age/set/', input.value )
+        }
+
+        function xhr( method, url, value ) {
+            var xhr = new XMLHttpRequest();
+            xhr.open( method, url, true );
+            if( method === 'POST' )
+                xhr.send( { value: value } );
+            else
+                xhr.send();
+
+            xhr.onreadystatechange = function() {
+                if( xhr.readyState !== 4 ) {
+                    return
+                }
+
+                if ( xhr.status !== 200 ) {
+                    alert( xhr.status + ': ' + xhr.statusText );
+                } else {
+                    console.log( xhr.responseText );
+                }
+            }
+
+        }
+
+    </script>
+</body>
+</html>
