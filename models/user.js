@@ -25,6 +25,10 @@ var UserSchema = new mongoose.Schema({
   age: {
     type: String,
     required: false
+  },
+  timeStamp: {
+    type: String,
+    required: false,
   }
 });
 

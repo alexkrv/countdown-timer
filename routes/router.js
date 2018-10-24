@@ -43,6 +43,7 @@ router.post('/', function (req, res, next) {
   } else if (req.body.logemail && req.body.logpassword) {
     User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
       if (error || !user) {
+          console.log('USER', user)
         var err = new Error('Wrong email or password.');
         err.status = 401;
         return next(err);
@@ -107,7 +108,7 @@ router.post('/age/set/', function (req, res, next) {
                     } else {
                         console.log('We are here', user);
                         user.age = req.body.age;
-                        user.startPoint = Date.now();
+                        user.timeStamp = Date.now();
                         user.save(function (error, User) {
                                 if (error) {
                                     console.log('ERROR!')

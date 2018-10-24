@@ -19,6 +19,7 @@
         xhr( 'GET', '/user' ).then( function ( data ) {
             console.log('data', data )
         })
+
         // countDown(1540407525076, 3420000 )
         var button = document.getElementById('send');
         button.addEventListener('click', setValue, false )
@@ -27,7 +28,7 @@
             event.preventDefault()
             var input = document.getElementById('value');
             var hours = convertYearsToHours( input.value )
-
+            console.log('setValue')
             xhr( 'POST', '/age/set', hours )
         }
 
