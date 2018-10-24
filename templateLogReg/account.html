@@ -16,8 +16,10 @@
         <div id="remainingTime"></div>
     </div>
     <script>
-        // xhr( 'GET', '' )
-        countDown(1540407525076, 3420000 )
+        xhr( 'GET', '/user' ).then( function ( data ) {
+            console.log('data', data )
+        })
+        // countDown(1540407525076, 3420000 )
         var button = document.getElementById('send');
         button.addEventListener('click', setValue, false )
 
@@ -36,28 +38,29 @@
         }
 
         function xhr( method, url, value ) {
-            var xhr = new XMLHttpRequest();
-            xhr.open( method, url, true );
-            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            return new Promise( function( succeed, fail) {
+                var xhr = new XMLHttpRequest();
+                xhr.open( method, url, true );
+                xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 
-            if( method === 'POST' ) {
-                var body = JSON.stringify({age: value})
-                xhr.send(body);
-            }
-            else
-                xhr.send();
-
-            xhr.onreadystatechange = function() {
-                if( xhr.readyState !== 4 ) {
-                    return
+                if( method === 'POST' ) {
+                    var body = JSON.stringify({age: value})
+                    xhr.send(body);
                 }
+                else
+                    xhr.send();
 
-                if ( xhr.status !== 200 ) {
-                    alert( xhr.status + ': ' + xhr.statusText );
-                } else {
-                    console.log( xhr.responseText );
+                xhr.onreadystatechange = function() {
+                    if( xhr.readyState !== 4 ) {
+                        return
+                    }
+                    if ( xhr.status !== 200 ) {
+                        alert( xhr.status + ': ' + xhr.statusText );
+                    } else {
+                        succeed(JSON.parse( xhr.responseText ) );
+                    }
                 }
-            }
+            })
 
         }
 
