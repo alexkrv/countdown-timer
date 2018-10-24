@@ -105,8 +105,9 @@ router.post('/age/set/', function (req, res, next) {
                         err.status = 400;
                         return next(err);
                     } else {
-                        console.log('We are here', user)
-                        user.age = req.body.age
+                        console.log('We are here', user);
+                        user.age = req.body.age;
+                        user.startPoint = Date.now();
                         user.save(function (error, User) {
                                 if (error) {
                                     console.log('ERROR!')

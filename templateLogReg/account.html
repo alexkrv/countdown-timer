@@ -11,16 +11,27 @@
     <div>Enter your number:</div>
     <input type="number" id="value" name="age" placeholder="input desired age"/>
     <button id="send">Установить значение</button>
+    <div class="counter">
+        <h2>Your remain time in seconds:</h2>
+        <div id="remainingTime"></div>
+    </div>
     <script>
+        countDown(1540407525076, 2990000 )
         var button = document.getElementById('send');
         button.addEventListener('click', setValue, false )
 
         function setValue( event ) {
             event.preventDefault()
             var input = document.getElementById('value');
-            console.log( input.value )
+            var hours = convertYearsToHours( input.value )
 
-            xhr( 'POST', '/age/set', input.value )
+            xhr( 'POST', '/age/set', hours )
+        }
+
+        function convertYearsToHours( years ){
+            const DAYS_IN_YEAR = 365
+            const HOURS_IN_DAY = 24
+            return years*DAYS_IN_YEAR*HOURS_IN_DAY
         }
 
         function xhr( method, url, value ) {
@@ -49,6 +60,26 @@
 
         }
 
+        function countDown( startPoint, timePeriod ) {
+            var currentTime = Date.now()
+            if( startPoint + timePeriod <= currentTime ){
+                console.log('Time is out!')
+            } else {
+                var display = document.getElementById( 'remainingTime')
+                var remainTime = timePeriod - ( currentTime - startPoint )
+                console.log('TIME', remainTime, timePeriod - ( currentTime - startPoint ))
+                var counter = 0;
+                var intervalId = setInterval(function(){
+                    counter++;
+                    if( counter*1000 >= remainTime ){
+                        console.log('Stop it!')
+                        clearImmediate( intervalId )
+                    } else {
+                        console.log('Not yet!', counter*1000, remainTime)
+                    }
+                    display.innerText = String( Math.floor( ( remainTime - counter*1000 )/1000 ) ); }, '1000')
+            }
+        }
     </script>
 </body>
 </html>
