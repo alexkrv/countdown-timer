@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Account</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!--<script src="../src/functions.js"></script>-->
 </head>
 <body>
     <div>This is your account</div>
     <div>Enter your number:</div>
-    <input id="value" type="number"/>
+    <input type="number" id="value" name="age" placeholder="input desired age"/>
     <button id="send">Установить значение</button>
     <script>
         var button = document.getElementById('send');
@@ -17,15 +18,20 @@
         function setValue( event ) {
             event.preventDefault()
             var input = document.getElementById('value');
-            console.log( input.value)
-            xhr( 'POST', '/age/set/', input.value )
+            console.log( input.value )
+
+            xhr( 'POST', '/age/set', input.value )
         }
 
         function xhr( method, url, value ) {
             var xhr = new XMLHttpRequest();
             xhr.open( method, url, true );
-            if( method === 'POST' )
-                xhr.send( { value: value } );
+            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+
+            if( method === 'POST' ) {
+                var body = JSON.stringify({age: value})
+                xhr.send(body);
+            }
             else
                 xhr.send();
 

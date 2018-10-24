@@ -31,8 +31,7 @@ app.use(session({
 
 // parse incoming requests
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // serve static files from template
 app.use(express.static(__dirname + '/templateLogReg'));

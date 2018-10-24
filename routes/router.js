@@ -60,10 +60,8 @@ router.post('/', function (req, res, next) {
 
 // GET route after registering
 router.get('/profile', function (req, res, next) {
-    // console.log('PATH', path)
   User.findById(req.session.userId)
     .exec(function (error, user) {
-        console.log('PATH 2')
       if (error) {
         return next(error);
       } else {
@@ -72,9 +70,7 @@ router.get('/profile', function (req, res, next) {
           err.status = 400;
           return next(err);
         } else {
-            console.log('PATH 3',__dirname)
           return res.sendFile(path.join(__dirname + '/../templateLogReg/account.html'));
-          // return res.send('<h1>Name: </h1>' + user.username + '<h2>Mail: </h2>' + user.email + '<br><a type="button" href="/logout">Logout</a>')
         }
       }
     });
@@ -94,11 +90,37 @@ router.get('/logout', function (req, res, next) {
   }
 });
 
-router.post('/age/set/', function (req, res) {
+router.post('/age/set/', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    console.log("we are here", req.body);
-    //setTimeout(function(){ res.send(products) }, '2000')
+    console.log("we are here 3", req.body);
+    if( req.body.age ) {
+        User.findById(req.session.userId)
+            .exec(function (error, user) {
+                if (error) {
+                    return next(error);
+                } else {
+                    if (user === null) {
+                        var err = new Error('Not authorized! Go back!');
+                        err.status = 400;
+                        return next(err);
+                    } else {
+                        console.log('We are here', user)
+                        user.age = req.body.age
+                        user.save(function (error, User) {
+                                if (error) {
+                                    console.log('ERROR!')
+                                } else {
+                                    console.log('STORED', user)
+                                }
+                            })
+                    }
+                }
+            });
+
+    } else {
+        console.log('You don\'t send anything!')
+    }
 });
 
 
