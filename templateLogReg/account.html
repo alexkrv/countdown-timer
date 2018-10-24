@@ -16,7 +16,8 @@
         <div id="remainingTime"></div>
     </div>
     <script>
-        countDown(1540407525076, 2990000 )
+        // xhr( 'GET', '' )
+        countDown(1540407525076, 3420000 )
         var button = document.getElementById('send');
         button.addEventListener('click', setValue, false )
 
@@ -71,13 +72,12 @@
                 var counter = 0;
                 var intervalId = setInterval(function(){
                     counter++;
-                    if( counter*1000 >= remainTime ){
-                        console.log('Stop it!')
-                        clearImmediate( intervalId )
-                    } else {
-                        console.log('Not yet!', counter*1000, remainTime)
-                    }
+                    console.log('TICK');
                     display.innerText = String( Math.floor( ( remainTime - counter*1000 )/1000 ) ); }, '1000')
+
+                setTimeout( function(){
+                    clearInterval( intervalId )
+                }, remainTime )
             }
         }
     </script>
