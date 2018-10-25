@@ -42,6 +42,7 @@ router.post('/', function (req, res, next) {
 
   } else if (req.body.logemail && req.body.logpassword) {
     User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
+        console.log('req.body',req.body)
       if (error || !user) {
           console.log('USER', user)
         var err = new Error('Wrong email or password.');
@@ -85,6 +86,7 @@ router.get('/logout', function (req, res, next) {
       if (err) {
         return next(err);
       } else {
+          console.log('LOGOUT')
         return res.redirect('/');
       }
     });
@@ -94,7 +96,6 @@ router.get('/logout', function (req, res, next) {
 router.post('/age/set/', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    console.log("we are here 3", req.body);
     if( req.body.age ) {
         User.findById(req.session.userId)
             .exec(function (error, user) {
@@ -123,6 +124,7 @@ router.post('/age/set/', function (req, res, next) {
     } else {
         console.log('You don\'t send anything!')
     }
+    return 'OK';
 });
 
 router.get('/user', function (req, res, next) {
