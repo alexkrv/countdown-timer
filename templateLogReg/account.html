@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Account</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <!--<script src="../src/functions.js"></script>-->
 </head>
 <body>
     <div>This is your account</div>
@@ -24,10 +23,11 @@
         var logout = document.getElementById( 'logout' );
         logout.addEventListener( 'click', logoutUser, false );
 
-        xhr( 'GET', '/user' ).then( function ( data ) {
-            if( data.timeStamp && data.age ) {
+        xhr_get( '/user' ).then( function ( response ) {
+            let user = JSON.parse( response );
+            if( parseInt( user.timeStamp ) && parseInt( user.age ) ) {
                 input.style.visibility = 'hidden';
-                countDown(data.timeStamp, data.age )
+                countDown(user.timeStamp, user.age )
             } else {
                 counter.style.visibility = 'hidden';
                 input.style.visibility = 'visible';
@@ -37,14 +37,10 @@
             }
         })
 
-        // countDown(1540407525076, 3420000 )
-
-        function setValue( event ) {
-            event.preventDefault();
+        function setValue() {
             var input = document.getElementById('value');
             var hours = convertYearsToSeconds( input.value );
-            console.log('setValue');
-            xhr( 'POST', '/age/set', hours )
+            xhr_post('/age/set', hours );
             window.location.reload()
         }
 
@@ -55,36 +51,32 @@
             return years*DAYS_IN_YEAR*HOURS_IN_DAY*SECONDS_IN_HOUR
         }
 
-        function xhr( method, url, value ) {
-            return new Promise( function( succeed, fail) {
-                var xhr = new XMLHttpRequest();
-                xhr.open( method, url, true );
+        function xhr_get(url) {
+            return new Promise( (resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", url, true);
                 xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                xhr.onload = () => resolve(xhr.responseText);
+                xhr.onerror = () => reject(xhr.statusText);
+                xhr.send();
+            } );
+        }
 
-                if( method === 'POST' ) {
-                    var body = JSON.stringify({age: value})
-                    xhr.send(body);
-                }
-                else
-                    xhr.send();
+        function xhr_post(url, data) {
+            return new Promise( (resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                const body = JSON.stringify( { data } );
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                xhr.send( body );
+                xhr.onload = () => resolve(xhr.responseText);
+                xhr.onerror = () => reject(xhr.statusText);
 
-                xhr.onreadystatechange = function() {
-                    if( xhr.readyState !== 4 ) {
-                        return
-                    }
-                    if ( xhr.status !== 200 ) {
-                        fail( xhr.status + ': ' + xhr.statusText );
-                    } else {
-                        //succeed(JSON.parse( xhr.responseText ) );
-                        succeed()
-                    }
-                }
-            })
-
+            } );
         }
 
         function countDown( startPoint, timePeriod ) {
-            var currentTime = Date.now()
+            var currentTime = Date.now();
             if( startPoint + timePeriod <= currentTime ){
                 console.log('Time is out!')
             } else {
@@ -103,7 +95,8 @@
         }
 
         function logoutUser(){
-            xhr( 'GET', '/logout' ).then( function(){
+            xhr_get('/logout' ).then( function(){
+                window.location.pathname = '/'
                 console.log('Goodbye!')
             })
         }

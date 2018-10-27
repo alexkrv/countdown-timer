@@ -29,6 +29,8 @@ router.post('/', function (req, res, next) {
       username: req.body.username,
       password: req.body.password,
       passwordConf: req.body.passwordConf,
+      age: '0',
+      timeStamp: '0',
     }
 
     User.create(userData, function (error, user) {
@@ -42,9 +44,7 @@ router.post('/', function (req, res, next) {
 
   } else if (req.body.logemail && req.body.logpassword) {
     User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
-        console.log('req.body',req.body)
       if (error || !user) {
-          console.log('USER', user)
         var err = new Error('Wrong email or password.');
         err.status = 401;
         return next(err);
@@ -96,7 +96,7 @@ router.get('/logout', function (req, res, next) {
 router.post('/age/set/', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    if( req.body.age ) {
+    if( req.body.data ) {
         User.findById(req.session.userId)
             .exec(function (error, user) {
                 if (error) {
@@ -107,10 +107,7 @@ router.post('/age/set/', function (req, res, next) {
                         err.status = 400;
                         return next(err);
                     } else {
-                        console.log('We are here', user);
-                        user.age = req.body.age;
-                        user.timeStamp = Date.now();
-                        user.save(function (error, User) {
+                        user.update( { age: req.body.data, timeStamp: Date.now()  }, function (error, User) {
                                 if (error) {
                                     console.log('ERROR!')
                                 } else {
