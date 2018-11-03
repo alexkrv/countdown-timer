@@ -10,10 +10,10 @@
     <div class="wrapper">
         <h1 id='greeting' class="wrapper__header"></h1>
         <button class="wrapper__button" id="logout">Log out</button>
-        <div id="input">
-            <div>Enter your number:</div>
-            <input type="number" id="value" name="age" placeholder="input desired age"/>
-            <button id="send">Установить значение</button>
+        <div id="form">
+            <div class="title">Enter your period:</div>
+            <input class="input" type="number" id="value" name="age"/>
+            <button class="sent-btn" id="send">Set the value</button>
         </div>
         <div id="counter">
             <h2 class="counter__remain-header">Your remain time:</h2>
@@ -22,7 +22,7 @@
     </div>
 
     <script>
-        var input = document.getElementById( 'input' );
+        var form = document.getElementById( 'form' );
         var counter = document.getElementById( 'counter' );
         var logout = document.getElementById( 'logout' );
         logout.addEventListener( 'click', logoutUser, false );
@@ -31,11 +31,11 @@
             let user = JSON.parse( response );
             document.getElementById('greeting').innerText = `Hi, ${ user.username }!`;
             if( parseInt( user.timeStamp ) && parseInt( user.age ) ) {
-                input.style.visibility = 'hidden';
+                form.style.visibility = 'hidden';
                 countDown(user.timeStamp, user.age )
             } else {
                 counter.style.visibility = 'hidden';
-                input.style.visibility = 'visible';
+                form.style.visibility = 'visible';
 
                 var button = document.getElementById('send');
                 button.addEventListener('click', setValue, false )
