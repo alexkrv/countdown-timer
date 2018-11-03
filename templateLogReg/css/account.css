@@ -66,3 +66,19 @@ body {
     border-radius: 4px;
     margin: 20px auto;
 }
+
+.delimiter {
+    font-weight: bold;
+    visibility: visible;
+    animation: delimiter .5s 0s infinite ease;
+}
+
+@keyframes delimiter {
+    from {
+        visibility: hidden;
+    }
+    to {
+        visibility: visible;
+        color: red;
+    }
+}

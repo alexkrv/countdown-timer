@@ -106,8 +106,8 @@
             var minutes = Math.floor(dirtyMinutes);
             var seconds = Math.floor(( dirtyMinutes-minutes ) * 60);
 
-            document.getElementById( 'remainingTime').innerHTML = hours + "h : "
-                + minutes + "m : " + seconds + "s ";
+            document.getElementById( 'remainingTime').innerHTML = hours + "h" +
+                "<span class='delimiter'> : </span>" + minutes + "m" + "<span class='delimiter'> : </span>" + seconds + "s";
         }
 
         function logoutUser(){
