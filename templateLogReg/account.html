@@ -45,16 +45,17 @@
 
         function setValue() {
             var input = document.getElementById('value');
-            var hours = convertYearsToSeconds( input.value );
-            xhr_post('/age/set', hours );
+            var mSeconds = convertYearsToMiliSeconds( input.value );
+            console.log('mSeconds',mSeconds)
+            xhr_post('/age/set', mSeconds );
             window.location.reload()
         }
 
-        function convertYearsToSeconds( years ){
+        function convertYearsToMiliSeconds( years ){
             const DAYS_IN_YEAR = 365;
             const HOURS_IN_DAY = 24;
-            const SECONDS_IN_HOUR = 60*60;
-            return years*DAYS_IN_YEAR*HOURS_IN_DAY*SECONDS_IN_HOUR
+            const MILLI_SECONDS_IN_HOUR = 60*60*1000;
+            return years*DAYS_IN_YEAR*HOURS_IN_DAY*MILLI_SECONDS_IN_HOUR
         }
 
         function xhr_get(url) {
@@ -84,6 +85,8 @@
         function countDown( startPoint, timePeriod ) {
             ComputeFormatedTime( startPoint, timePeriod )
             var x = setInterval(function() {
+                var now = new Date().getTime();
+                var distance = timePeriod - ( now - startPoint ) ;
                 ComputeFormatedTime( startPoint, timePeriod )
 
                 // If the count down is finished, write some text
@@ -96,7 +99,7 @@
 
         function ComputeFormatedTime( startPoint, timePeriod ){
             var now = new Date().getTime();
-            var distance = timePeriod - ( now - startPoint ) ;
+            var distance = timePeriod - ( now - startPoint );
             var dirtyHours = distance / (1000 * 60 * 60 );
             var hours = Math.floor( dirtyHours )
             var dirtyMinutes = ( dirtyHours - hours ) * 60;
