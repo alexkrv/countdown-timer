@@ -1,0 +1,28 @@
+body {
+    background-color: lightgray;
+    font-family: Arial, sans-serif;
+}
+
+.wrapper {
+    margin: 0 auto;
+    width: 340px;
+}
+
+.wrapper__header, .counter__remain-time, .counter__remain-header {
+    text-align: center;
+}
+
+.wrapper__header, .counter__remain-header {
+    margin-bottom: 10px;
+}
+
+.wrapper__button {
+    display: block;
+    margin: 0 auto;
+    background-color: #0b4379;
+    border-radius: 4px;
+    width: 100px;
+    height: 30px;
+    border: none;
+    color: white;
+}
