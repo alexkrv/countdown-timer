@@ -10,7 +10,7 @@
     <div class="wrapper">
         <h1 id='greeting' class="wrapper__header"></h1>
         <button class="wrapper__button" id="logout">Log out</button>
-        <div id="form">
+        <div id="form" hidden="true">
             <div class="title">Enter your period:</div>
             <input class="input" type="number" id="value" name="age"/>
             <button class="sent-btn" id="send">Set the value</button>
@@ -32,11 +32,12 @@
             document.getElementById('greeting').innerText = `Hi, ${ user.username }!`;
             if( parseInt( user.timeStamp ) && parseInt( user.age ) ) {
                 form.style.visibility = 'hidden';
+                form.hidden = true;
                 countDown(user.timeStamp, user.age )
             } else {
                 counter.style.visibility = 'hidden';
                 form.style.visibility = 'visible';
-
+                form.hidden = false;
                 var button = document.getElementById('send');
                 button.addEventListener('click', setValue, false )
             }
