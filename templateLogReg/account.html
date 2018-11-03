@@ -80,22 +80,24 @@
         }
 
         function countDown( startPoint, timePeriod ) {
-            var currentTime = Date.now();
-            if( startPoint + timePeriod <= currentTime ){
-                console.log('Time is out!')
-            } else {
-                var display = document.getElementById( 'remainingTime')
-                var remainTime = timePeriod - ( currentTime - startPoint )
-                var counter = 0;
-                var intervalId = setInterval(function(){
-                    counter++;
-                    console.log('TICK');
-                    display.innerText = String( Math.floor( ( remainTime - counter*1000 )/1000 ) ); }, '1000')
+            var x = setInterval(function() {
+                var now = new Date().getTime();
+                var distance = timePeriod - ( now - startPoint ) ;
+                var dirtyHours = distance / (1000 * 60 * 60 );
+                var hours = Math.floor( dirtyHours )
+                var dirtyMinutes = ( dirtyHours - hours ) * 60;
+                var minutes = Math.floor(dirtyMinutes);
+                var seconds = Math.floor(( dirtyMinutes-minutes ) * 60);
 
-                setTimeout( function(){
-                    clearInterval( intervalId )
-                }, remainTime )
-            }
+                document.getElementById( 'remainingTime').innerHTML = hours + "h : "
+                    + minutes + "m : " + seconds + "s ";
+
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("remainingTime").innerHTML = "EXPIRED";
+                }
+            }, 1000);
         }
 
         function logoutUser(){
