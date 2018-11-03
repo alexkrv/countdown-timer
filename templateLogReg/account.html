@@ -4,19 +4,23 @@
     <meta charset="UTF-8">
     <title>Account</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="css/account.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-    <div>This is your account</div>
-    <button id="logout">Log out</button>
-    <div id="input">
-        <div>Enter your number:</div>
-        <input type="number" id="value" name="age" placeholder="input desired age"/>
-        <button id="send">Установить значение</button>
+    <div class="wrapper">
+        <h1 class="wrapper__header">Account page</h1>
+        <button id="logout">Log out</button>
+        <div id="input">
+            <div>Enter your number:</div>
+            <input type="number" id="value" name="age" placeholder="input desired age"/>
+            <button id="send">Установить значение</button>
+        </div>
+        <div id="counter">
+            <h2 class="counter__remain-header">Your remain time:</h2>
+            <div id="remainingTime" class="counter__remain-time"></div>
+        </div>
     </div>
-    <div id="counter">
-        <h2>Your remain time in seconds:</h2>
-        <div id="remainingTime"></div>
-    </div>
+
     <script>
         var input = document.getElementById( 'input' );
         var counter = document.getElementById( 'counter' );
