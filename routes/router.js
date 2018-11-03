@@ -47,7 +47,8 @@ router.post('/', function (req, res, next) {
       if (error || !user) {
         var err = new Error('Wrong email or password.');
         err.status = 401;
-        return next(err);
+        // return next(err);
+        res.redirect('/wrong-credentials');
       } else {
         req.session.userId = user._id;
         return res.redirect('/profile');
@@ -68,9 +69,7 @@ router.get('/profile', function (req, res, next) {
         return next(error);
       } else {
         if (user === null) {
-          var err = new Error('Not authorized! Go back!');
-          err.status = 400;
-          return next(err);
+            res.redirect('/');
         } else {
           return res.sendFile(path.join(__dirname + '/../templateLogReg/account.html'));
         }
@@ -141,5 +140,9 @@ router.get('/user', function (req, res, next) {
         });
 });
 
+// GET for logout logout
+router.get('/wrong-credentials', function (req, res) {
+    res.sendFile(path.join( __dirname + '/../templateLogReg/wrong-credentials.html'));
+});
 
 module.exports = router;
