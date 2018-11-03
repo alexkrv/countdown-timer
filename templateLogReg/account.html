@@ -82,17 +82,9 @@
         }
 
         function countDown( startPoint, timePeriod ) {
+            ComputeFormatedTime( startPoint, timePeriod )
             var x = setInterval(function() {
-                var now = new Date().getTime();
-                var distance = timePeriod - ( now - startPoint ) ;
-                var dirtyHours = distance / (1000 * 60 * 60 );
-                var hours = Math.floor( dirtyHours )
-                var dirtyMinutes = ( dirtyHours - hours ) * 60;
-                var minutes = Math.floor(dirtyMinutes);
-                var seconds = Math.floor(( dirtyMinutes-minutes ) * 60);
-
-                document.getElementById( 'remainingTime').innerHTML = hours + "h : "
-                    + minutes + "m : " + seconds + "s ";
+                ComputeFormatedTime( startPoint, timePeriod )
 
                 // If the count down is finished, write some text
                 if (distance < 0) {
@@ -100,6 +92,19 @@
                     document.getElementById("remainingTime").innerHTML = "EXPIRED";
                 }
             }, 1000);
+        }
+
+        function ComputeFormatedTime( startPoint, timePeriod ){
+            var now = new Date().getTime();
+            var distance = timePeriod - ( now - startPoint ) ;
+            var dirtyHours = distance / (1000 * 60 * 60 );
+            var hours = Math.floor( dirtyHours )
+            var dirtyMinutes = ( dirtyHours - hours ) * 60;
+            var minutes = Math.floor(dirtyMinutes);
+            var seconds = Math.floor(( dirtyMinutes-minutes ) * 60);
+
+            document.getElementById( 'remainingTime').innerHTML = hours + "h : "
+                + minutes + "m : " + seconds + "s ";
         }
 
         function logoutUser(){

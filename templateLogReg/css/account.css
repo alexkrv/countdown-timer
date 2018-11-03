@@ -25,6 +25,7 @@ body {
     height: 30px;
     border: none;
     color: white;
+    cursor: pointer;
 }
 
 .title {
@@ -56,6 +57,7 @@ body {
     width: 150px;
     box-sizing: content-box;
     margin: 10px auto;
+    cursor: pointer;
 }
 
 #form {
