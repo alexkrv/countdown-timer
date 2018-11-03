@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="wrapper">
-        <h1 class="wrapper__header">Your Profile</h1>
+        <h1 id='greeting' class="wrapper__header"></h1>
         <button class="wrapper__button" id="logout">Log out</button>
         <div id="input">
             <div>Enter your number:</div>
@@ -29,6 +29,7 @@
 
         xhr_get( '/user' ).then( function ( response ) {
             let user = JSON.parse( response );
+            document.getElementById('greeting').innerText = `Hi, ${ user.username }!`;
             if( parseInt( user.timeStamp ) && parseInt( user.age ) ) {
                 input.style.visibility = 'hidden';
                 countDown(user.timeStamp, user.age )
