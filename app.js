@@ -7,7 +7,7 @@ var MongoStore = require('connect-mongo')(session);
 
 //connect to MongoDB
 //mongoose.connect('mongodb://localhost/testForAuth',{
-mongoose.connect('mongodb://<user>:<psw>@ds253353.mlab.com:53353/daas_test',{
+mongoose.connect('mongodb://user1:<psw>@ds253353.mlab.com:53353/daas_test',{
     useMongoClient: true,
     /* other options */
 });
